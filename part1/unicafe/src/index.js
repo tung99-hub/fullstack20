@@ -39,8 +39,8 @@ const Statistics = (props) => {
         <Statistic text="neutral" value ={props.neutral} />
         <Statistic text="bad" value ={props.bad} />
         <Statistic text="all" value ={props.good + props.neutral + props.bad} />
-        <Statistic text="average" value ={(props.good - props.bad) / (props.good + props.neutral + props.bad)} />
-        <Statistic text="positive" value ={(props.good *100) / (props.good + props.neutral + props.bad)} />
+        <Statistic text="average" value ={((props.good - props.bad) / (props.good + props.neutral + props.bad)).toFixed(2)} />
+        <Statistic text="positive" value ={((props.good *100) / (props.good + props.neutral + props.bad)).toFixed(2)} />
       </tbody>
     </table>
   )
