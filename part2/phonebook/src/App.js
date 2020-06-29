@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import personService from './services/persons'
+import './index.css'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNum, setNewNum ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
+  const [ message, setMessage ] = useState(null) 
 
   useEffect(() => {
     personService
@@ -35,7 +38,16 @@ const App = () => {
         .update(p.id, personObject)
           .then((returnedPerson) => {
             setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
+            setMessage(`Updated ${personObject.name}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
+          .catch(error =>
+            setMessage(`Information of ${personObject.name} has already been removed from server`))
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
       }
     }  
     else {
@@ -45,6 +57,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNum('')
+          setMessage(`Added ${personObject.name}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
       })
     }
   }
@@ -56,6 +72,10 @@ const App = () => {
       .remove(person.id)
         .then(() => {
           setPersons(persons.filter(p => p.id !== person.id))
+          setMessage(`Removed ${person.name}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
   }
@@ -75,9 +95,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter search={newSearch} handleSearch={handleSearch}/>
       <h3>add a new entry</h3>
-      <PersonForm addPerson={addPerson} handleName={handleNameChange} handleNum={handleNumChange} name={newName} num={newNum}/>
+      <PersonForm addPerson={addPerson} handleName={handleNameChange} handleNum={handleNumChange} name={newName} num={newNum} setMessage={setMessage} />
       <h3>Numbers</h3>
       <Persons persons={persons} search={newSearch} deletePerson={deletePerson} />
     </div>
