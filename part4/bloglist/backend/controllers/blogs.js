@@ -3,10 +3,10 @@ const Blog = require('../models/blog')
 
 blogsRouter.get('/', (request, response) => {
   Blog
-  .find({})
-  .then(blogs => {
-    response.json(blogs)
-  })
+    .find({})
+    .then(blogs => {
+      response.json(blogs)
+    })
 })
 
 blogsRouter.post('/', (request, response) => {
