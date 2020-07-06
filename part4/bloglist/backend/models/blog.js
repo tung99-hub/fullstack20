@@ -1,8 +1,9 @@
+const config = require('../utils/config')
 const mongoose = require('mongoose')
 
 mongoose.set('useFindAndModify', false)
 
-const url = process.env.MONGODB_URI
+const url = config.MONGODB_URI
 
 console.log('connecting to', url)
 
@@ -15,10 +16,22 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   })
 
 const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
+  title: {
+    type: String,
+    required: true
+  },
+  author: {
+    type: String,
+    default: 'N/A'
+  },
+  url: {
+    type: String,
+    required: true
+  },
+  likes: {
+    type: Number,
+    default: 0
+  }
 })
 
 blogSchema.set('toJSON', {
