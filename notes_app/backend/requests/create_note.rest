@@ -1,7 +1,8 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI1ZjA0YWMzZmNhYjAyZTJlYzA0MmFhM2EiLCJpYXQiOjE1OTQxNDIyMjV9.5aO3NtPv2ck1aVeU6kwvfFe3ySwCgo2wOMKs-8ZjfJA
 
 {
-  "content": "Browser can execute only Javascript",
+  "content": "SPAs use token authentication",
   "important": true
 }
