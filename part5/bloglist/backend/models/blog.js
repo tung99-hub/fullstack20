@@ -20,10 +20,7 @@ const blogSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  author: {
-    type: String,
-    default: 'N/A'
-  },
+  author: String,
   url: {
     type: String,
     required: true
