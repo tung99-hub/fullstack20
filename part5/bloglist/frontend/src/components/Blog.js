@@ -37,7 +37,7 @@ const Blog = ({ blog, increaseLikes, removeBlog }) => {
   )
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <Togglable buttonLabel='view' reverseLabel='hide' alt={simplifiedView}>
         {detailedView}
       </Togglable>
