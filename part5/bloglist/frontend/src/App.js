@@ -112,7 +112,7 @@ const App = () => {
   }
 
   const blogForm = () => (
-    <Togglable buttonLabel='new blog' reverseLabel='cancel' ref={blogFormRef}>
+    <Togglable buttonLabel='create blog' reverseLabel='cancel' ref={blogFormRef}>
       <BlogForm createBlog={addBlog} />
     </Togglable>
   )
@@ -128,7 +128,6 @@ const App = () => {
             {user.name} logged in
             <button onClick={() => logOut()}>logout</button>
           </p>
-          <h2>create a new blog</h2>
           {blogForm()}
           <h2>blogs</h2>
           {blogs.map(blog =>

@@ -27,7 +27,7 @@ const Blog = ({ blog, increaseLikes, removeBlog }) => {
       <ul>
         <li>{blog.title}</li>
         <li>{blog.url}</li>
-        <li>
+        <li id='likes'>
           {blog.likes}
           <button onClick={addOne}>like</button>
         </li>

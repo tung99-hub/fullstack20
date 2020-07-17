@@ -15,14 +15,14 @@ test('BlogForm receives the right details', () => {
   const url = component.container.querySelector('#url')
   const form = component.container.querySelector('form')
 
-  fireEvent.change(author, { 
-    target: { value: 'tung' } 
+  fireEvent.change(author, {
+    target: { value: 'tung' }
   })
-  fireEvent.change(title, { 
-    target: { value: 'new blog' } 
+  fireEvent.change(title, {
+    target: { value: 'new blog' }
   })
-  fireEvent.change(url, { 
-    target: { value: 'localhost:3001' } 
+  fireEvent.change(url, {
+    target: { value: 'localhost:3001' }
   })
   fireEvent.submit(form)
 

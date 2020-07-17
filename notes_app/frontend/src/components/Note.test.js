@@ -15,7 +15,7 @@ test('renders content', () => {
   )
 
   const li = component.container.querySelector('li')
-  
+
   console.log(prettyDOM(li))
 
   // method 1
