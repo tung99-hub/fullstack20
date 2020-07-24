@@ -3,22 +3,23 @@ const notificationReducer = (state = 'Notifications', action) => {
     case 'SET_NOTI':
       return action.noti
     case 'DELETE_NOTI':
-      return ''
+      return 'Notifications'
     default:
       return state
   }
 }
 
-export const notificationChange = noti => {
-  return {
-    type: 'SET_NOTI',
-    noti
-  }
-}
-
-export const notificationRemove = () => {
-  return {
-    type: 'DELETE_NOTI'
+export const setNotification = (statement, time) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SET_NOTI',
+      noti: statement
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'DELETE_NOTI'
+      })
+    }, time*1000)
   }
 }
 
