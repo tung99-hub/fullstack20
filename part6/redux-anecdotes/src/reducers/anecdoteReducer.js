@@ -1,18 +1,23 @@
 import anecdoteService from '../services/anecdotes'
 
+const sortByDescendingVotes = (list) => {
+  return list.sort((a, b) => b.votes - a.votes)
+}
+
 const anecdoteReducer = (state = [], action) => {
   switch(action.type) {
     case 'VOTE':
       const votedAnecdote = state.find(a => a.id === action.data.id)
       const upVotedAnecdote = {...votedAnecdote, votes: votedAnecdote.votes + 1}
       const newState =  state.map(a => a.id === action.data.id ? upVotedAnecdote : a)
-      return newState.sort((a, b) => b.votes - a.votes)
+      
+      return sortByDescendingVotes(newState)
     case 'NEW_ANECDOTE':
-      return [...state, action.data].sort((a, b) => b.votes - a.votes)
+      return sortByDescendingVotes([...state, action.data])
     case 'INIT_ANECDOTES':
-      return action.data.sort((a, b) => b.votes - a.votes)
+      return sortByDescendingVotes(action.data)
     default: 
-      return state.sort((a, b) => b.votes - a.votes)
+      return sortByDescendingVotes(state)
   }
 }
 
