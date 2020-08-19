@@ -2,9 +2,14 @@ import React, { useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import Togglable from './Togglable'
+import { setNotification } from '../reducers/notificationReducer'
+import blogService from '../services/blogs'
+import { Button, Form } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const blogFormRef = useRef()
 
   const addBlog = async (event) => {
@@ -20,36 +25,39 @@ const BlogForm = () => {
       author,
       url
     }
-    dispatch(createBlog(blog))
+    try {
+      const newBlog = await blogService.create(blog)
+      dispatch(createBlog(newBlog))
+      dispatch(setNotification(`Sucessfully added blog ${blog.title} by ${blog.author}`), 5)
+      history.push('/blogs')
+    }
+    catch (exception) {
+      if (exception.response.status === 400) {
+        dispatch(setNotification('Please fill out all the fields', 5))
+      }
+      else {
+        dispatch(setNotification(exception.response.data.error, 5))
+      }
+    }
   }
 
   return (
     <div>
-      <Togglable buttonLabel='create blog' reverseLabel='cancel' ref={blogFormRef}>
+      <Togglable buttonLabel='Create blog' reverseLabel='Cancel' ref={blogFormRef}>
         <h3>Create a new blog</h3>
-        <form onSubmit={addBlog}>
-          <div>title:
-            <input
-              id='title'
-              name='title'
-            />
-          </div>
+        <Form onSubmit={addBlog}>
+          <Form.Group>
+            <Form.Label>Title:</Form.Label>
+            <Form.Control name='title' />
 
-          <div>author:
-            <input
-              id='author'
-              name='author'
-            />
-          </div>
+            <Form.Label>Author:</Form.Label>
+            <Form.Control name='author' />
 
-          <div>url:
-            <input
-              id='url'
-              name='url'
-            />
-          </div>
-          <button id='submit-blog' type="submit">create</button>
-        </form>
+            <Form.Label>URL:</Form.Label>
+            <Form.Control name='url' />
+          </Form.Group>
+          <Button variant='primary' id='submit-blog' type="submit">Create</Button>
+        </Form>
       </Togglable>
     </div>
   )

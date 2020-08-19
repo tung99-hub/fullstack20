@@ -4,25 +4,22 @@ import blogService from './services/blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import './App.css'
 import { initializeBlogs } from './reducers/blogReducer'
 import { setUser } from './reducers/userReducer'
 import { initializeUserlist } from './reducers/userlistReducer'
-import UserStatus from './components/UserStatus'
 import UserList from './components/UserList'
 import User from './components/User'
 import Blog from './components/Blog'
+import Navigation from './components/Navigation'
 import {
-  Switch, Route, Link
+  Switch, Route
 } from 'react-router-dom'
 
 
 const App = () => {
   const dispatch = useDispatch()
-  const notification = useSelector(state => state.noti)
-  const user = useSelector(state => state.user)
-  const padding = { padding: 5 }
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -36,26 +33,12 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div>
-      <div>
-        <Link style={padding} to="/">home</Link>
-        <Link style={padding} to="/blogs">blogs</Link>
-        <Link style={padding} to="/users">users</Link>
-      </div>
-      <Notification message={notification} />
-      <h2>blogs</h2>
-      <UserStatus />
+    <div className='container'>
+      <h2>Blog Application</h2>
+      <Navigation />
+      <Notification />
 
       <Switch>
-        <Route path='/' exact>
-          {user === null ?
-            <LoginForm /> :
-            <div>
-              <BlogForm />
-              <BlogList />
-            </div>
-          }
-        </Route>
         <Route path='/users' exact>
           <UserList />
         </Route>
@@ -64,6 +47,13 @@ const App = () => {
         </Route>
         <Route path='/blogs/:id'>
           <Blog />
+        </Route>
+        <Route path='/blogs' exact>
+          <BlogList />
+          <BlogForm />
+        </Route>
+        <Route path='/login'>
+          <LoginForm />
         </Route>
       </Switch>
     </div>

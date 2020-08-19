@@ -1,13 +1,16 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 import { setUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import Togglable from './Togglable'
+import { useHistory } from 'react-router-dom'
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
+  const user = useSelector(state => state.user)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -24,6 +27,8 @@ const LoginForm = () => {
       blogService.setToken(user.token)
       dispatch(setUser(user))
       dispatch(setNotification(`logged in as ${user.username}`, 5))
+      history.push('/blogs')
+
     } catch (exception) {
       dispatch(setNotification('Wrong username or password', 5))
     }
@@ -31,19 +36,26 @@ const LoginForm = () => {
 
   return (
     <div>
-      <Togglable buttonLabel='log in' reverseLabel='cancel'>
-        <h2>log in to application</h2>
-
-        <form onSubmit={handleSubmit}>
-          <div>
-            username <input name='username'/>
-          </div>
-          <div>
-            password <input type="password" name="password"/>
-          </div>
-          <button id='login-button' type="submit">login</button>
-        </form>
-      </Togglable>
+      {user === null ?
+        <Form onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              type='text'
+              name='username'
+            />
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type='password'
+              name='password'
+            />
+            <Button variant='primary' type='submit'>
+              Login
+            </Button>
+          </Form.Group>
+        </Form> :
+        <p>Already logged in as {user.name}</p>
+      }
 
     </div>
   )

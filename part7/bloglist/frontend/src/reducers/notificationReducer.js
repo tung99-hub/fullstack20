@@ -1,8 +1,10 @@
 const notificationReducer = (state = null, action) => {
   switch(action.type) {
     case 'SET_NOTI':
+      console.log('Noti set')
       return action.noti
     case 'DELETE_NOTI':
+      console.log('Noti removed')
       return null
     default:
       return state
